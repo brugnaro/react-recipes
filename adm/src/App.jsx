@@ -1,16 +1,17 @@
-import { Component } from 'react'
-import './App.css'
+import { Query } from 'react-apollo'
+import { GET_ALL_RECIPES } from './queries'
 
-export default class App extends Component {
-  state = {
-    name: 'react-recipes'
-  };
+const App = () => <div>
+  <Query query={GET_ALL_RECIPES}>
+    {({ data, loading, error }) => {
+      if (loading) return <p>loading</p>
+      if (error) return <p>Error</p>
+      const recipes = data.getAllRecipes
+      return (
+        recipes.map((re, i) => <p key={i}>{re.name}</p>)
+      )
+    }}
+  </Query>
+</div>
 
-  render () {
-    return (
-      <div className='App'>
-        <h1>Welcome to {this.state.name}</h1>
-      </div>
-    )
-  }
-}
+export default App
